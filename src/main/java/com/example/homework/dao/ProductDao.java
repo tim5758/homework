@@ -55,7 +55,7 @@ public class ProductDao {
         ArrayList<Product> productList = new ArrayList<>();
         try {
             ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
+            while(resultSet.next()){
                 Integer productId = resultSet.getInt("product_id");
                 String name = resultSet.getString("product_name");
                 String category = resultSet.getString("category");
@@ -73,6 +73,12 @@ public class ProductDao {
 
         for(Product product : productList){
             System.out.println(product);
+        }
+        System.out.println(productList.size());
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }
