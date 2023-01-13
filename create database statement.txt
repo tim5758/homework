@@ -1,0 +1,25 @@
+CREATE DATABASE `homework`;
+
+
+CREATE TABLE product
+(
+    product_id         INT          PRIMARY KEY AUTO_INCREMENT,
+    product_name       VARCHAR(50)  NOT NULL,
+    category           VARCHAR(32)  NOT NULL,
+    price              INT          NOT NULL,
+    stock              INT          NOT NULL,
+    created_date       TIMESTAMP    default now() NOT NULL,
+    last_modified_date TIMESTAMP    default now() NOT NULL
+);
+
+
+INSERT INTO product(product_name, category, price, stock) VALUES 
+('Jordan球鞋第1代', 'SHOES', 10000, 50),
+('Jordan球鞋第2代', 'SHOES', 6000, 30),
+('Kobe球鞋第1代', 'SHOES', 9000, 80),
+('Curry球鞋第1代', 'SHOES', 7500, 130),
+('BMW', 'CAR', 100000, 10),
+('BENZ', 'CAR', 90000, 5),
+('TESLA', 'CAR', 150000, 15),
+('apple', 'FOOD', 10, 50),
+('bacon', 'FOOD', 20, 15);
