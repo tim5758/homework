@@ -6,8 +6,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class ProductDao {
-
-    Connection connection;
     PreparedStatement preparedStatement;
 
     // 試做未完成
@@ -28,57 +26,33 @@ public class ProductDao {
 
     }
 
-    public void getProductByName(String productName){
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            System.out.println("Driver loaded...");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Failed to load Driver");
-            throw new RuntimeException(e);
-        }
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/homework", "root", "Password123");
-            System.out.println("database connected...");
-        } catch (SQLException e) {
-            System.out.println("Failed to connect MySQL database");
-            throw new RuntimeException(e);
-        }
+    public ArrayList<Product> getProductByName(String productName) throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.jdbc.Driver");
+        System.out.println("Driver loaded...");
+
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/homework", "root", "Password123");
+        System.out.println("database connected...");
 
         String sql = "SELECT * FROM product WHERE product_name LIKE ? ;";
-        try {
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, "%" + productName + "%");
-        } catch (SQLException e) {
-            System.out.println("Failed to setting sql parameter");
-            throw new RuntimeException(e);
-        }
+
+        preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, "%" + productName + "%");
+
         ArrayList<Product> productList = new ArrayList<>();
-        try {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
-                Integer productId = resultSet.getInt("product_id");
-                String name = resultSet.getString("product_name");
-                String category = resultSet.getString("category");
-                Integer price = resultSet.getInt("price");
-                Integer stock = resultSet.getInt("stock");
-                Timestamp createdDate = resultSet.getTimestamp("created_date");
-                Timestamp lastModifiedDate = resultSet.getTimestamp("last_modified_date");
-                Product product = new Product(productId, name, category, price, stock, createdDate, lastModifiedDate);
-                productList.add(product);
-            }
-        } catch (SQLException e) {
-            System.out.println("Failed to search product name");
-            throw new RuntimeException(e);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()){
+            Integer productId = resultSet.getInt("product_id");
+            String name = resultSet.getString("product_name");
+            String category = resultSet.getString("category");
+            Integer price = resultSet.getInt("price");
+            Integer stock = resultSet.getInt("stock");
+            Timestamp createdDate = resultSet.getTimestamp("created_date");
+            Timestamp lastModifiedDate = resultSet.getTimestamp("last_modified_date");
+            Product product = new Product(productId, name, category, price, stock, createdDate, lastModifiedDate);
+            productList.add(product);
         }
 
-        for(Product product : productList){
-            System.out.println(product);
-        }
-        System.out.println(productList.size());
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        System.out.println("ProductDao裡的productList有" + productList.size());
+        return productList;
     }
 }
