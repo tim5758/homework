@@ -20,12 +20,9 @@
         productList = (ArrayList<Product>) request.getAttribute("productList");
         for(int i=0; i<productList.size(); i++){
             printWriter.println(productList.get(i));
-
             printWriter.println("<br/>");
         }
     }
 %>
-
-
 </body>
 </html>
