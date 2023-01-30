@@ -11,6 +11,11 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>getProductByName</servlet-name>
-        <url-pattern>/getProductByName</url-pattern>
+        <url-pattern>/searchByName</url-pattern>
     </servlet-mapping>
+    
+    <welcome-file-list>
+        <welcome-file>search/searchName.jsp</welcome-file>
+    </welcome-file-list>
+
 </web-app>

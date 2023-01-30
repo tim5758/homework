@@ -9,7 +9,7 @@
     <title>Title</title>
 </head>
 <body>
-<form action="http://localhost:8080/getProductByName" method="get">
+<form action="/myWeb/searchByName" method="get">
   <label>商品名稱: </label>
   <input type="text" name="productName">
   <input type="submit" value="搜尋">
@@ -18,11 +18,26 @@
 <%
     if(request.getAttribute("productList") != null){
         productList = (ArrayList<Product>) request.getAttribute("productList");
-        for(int i=0; i<productList.size(); i++){
-            printWriter.println(productList.get(i));
-            printWriter.println("<br/>");
+        for(Product product: productList){
+%>
+商品ID：<%=product.getProductId()%> 商品名稱：<%=product.getProductName()%> 商品分類：<%=product.getCategory()%>
+商品價格：<%=product.getPrice()%> 商品庫存：<%=product.getStock()%> 上架日期：<%=product.getCreatedDate()%><br/>
+<%
         }
     }
 %>
+
+
+
+
+<%--<%--%>
+<%--    if(request.getAttribute("productList") != null){--%>
+<%--        productList = (ArrayList<Product>) request.getAttribute("productList");--%>
+<%--        for(int i=0; i<productList.size(); i++){--%>
+<%--            printWriter.println(productList.get(i));--%>
+<%--            printWriter.println("<br/>");--%>
+<%--        }--%>
+<%--    }--%>
+<%--%>--%>
 </body>
 </html>
